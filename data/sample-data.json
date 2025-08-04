@@ -1,0 +1,254 @@
+{
+  "activity-center": {
+    "maxCapacity": 150,
+    "currentOccupancy": 87,
+    "lastUpdated": "2024-01-15T14:30:00Z",
+    "hourlyData": {
+      "0": 12,
+      "1": 8,
+      "2": 5,
+      "3": 3,
+      "4": 2,
+      "5": 4,
+      "6": 15,
+      "7": 45,
+      "8": 78,
+      "9": 65,
+      "10": 52,
+      "11": 48,
+      "12": 89,
+      "13": 95,
+      "14": 87,
+      "15": 76,
+      "16": 68,
+      "17": 92,
+      "18": 115,
+      "19": 128,
+      "20": 135,
+      "21": 118,
+      "22": 89,
+      "23": 45
+    },
+    "weeklyData": {
+      "monday": {
+        "average": 85,
+        "peak": 142,
+        "peakTime": "19:00"
+      },
+      "tuesday": {
+        "average": 92,
+        "peak": 156,
+        "peakTime": "18:30"
+      },
+      "wednesday": {
+        "average": 78,
+        "peak": 138,
+        "peakTime": "19:15"
+      },
+      "thursday": {
+        "average": 95,
+        "peak": 162,
+        "peakTime": "18:45"
+      },
+      "friday": {
+        "average": 88,
+        "peak": 148,
+        "peakTime": "17:30"
+      },
+      "saturday": {
+        "average": 45,
+        "peak": 89,
+        "peakTime": "10:00"
+      },
+      "sunday": {
+        "average": 35,
+        "peak": 76,
+        "peakTime": "11:00"
+      }
+    },
+    "monthlyTrends": {
+      "january": 78,
+      "february": 82,
+      "march": 85,
+      "april": 88,
+      "may": 92,
+      "june": 65,
+      "july": 58,
+      "august": 62,
+      "september": 89,
+      "october": 91,
+      "november": 87,
+      "december": 72
+    }
+  },
+  "rec-center-west": {
+    "maxCapacity": 100,
+    "currentOccupancy": 52,
+    "lastUpdated": "2024-01-15T14:30:00Z",
+    "hourlyData": {
+      "0": 8,
+      "1": 5,
+      "2": 3,
+      "3": 2,
+      "4": 1,
+      "5": 2,
+      "6": 12,
+      "7": 35,
+      "8": 58,
+      "9": 48,
+      "10": 38,
+      "11": 35,
+      "12": 62,
+      "13": 68,
+      "14": 59,
+      "15": 52,
+      "16": 45,
+      "17": 68,
+      "18": 78,
+      "19": 89,
+      "20": 92,
+      "21": 85,
+      "22": 62,
+      "23": 32
+    },
+    "weeklyData": {
+      "monday": {
+        "average": 62,
+        "peak": 98,
+        "peakTime": "19:00"
+      },
+      "tuesday": {
+        "average": 68,
+        "peak": 105,
+        "peakTime": "18:30"
+      },
+      "wednesday": {
+        "average": 58,
+        "peak": 92,
+        "peakTime": "19:15"
+      },
+      "thursday": {
+        "average": 72,
+        "peak": 108,
+        "peakTime": "18:45"
+      },
+      "friday": {
+        "average": 65,
+        "peak": 95,
+        "peakTime": "17:30"
+      },
+      "saturday": {
+        "average": 32,
+        "peak": 58,
+        "peakTime": "10:00"
+      },
+      "sunday": {
+        "average": 28,
+        "peak": 52,
+        "peakTime": "11:00"
+      }
+    },
+    "monthlyTrends": {
+      "january": 58,
+      "february": 62,
+      "march": 65,
+      "april": 68,
+      "may": 72,
+      "june": 48,
+      "july": 42,
+      "august": 45,
+      "september": 68,
+      "october": 70,
+      "november": 66,
+      "december": 55
+    }
+  },
+  "predictions": {
+    "activity-center": {
+      "nextHour": 92,
+      "nextDay": 89,
+      "nextWeek": 87,
+      "confidence": 0.85
+    },
+    "rec-center-west": {
+      "nextHour": 58,
+      "nextDay": 62,
+      "confidence": 0.82
+    }
+  },
+  "alerts": {
+    "highTraffic": [
+      {
+        "gym": "activity-center",
+        "time": "19:00",
+        "day": "tuesday",
+        "message": "Peak traffic expected - consider visiting earlier"
+      },
+      {
+        "gym": "rec-center-west",
+        "time": "18:30",
+        "day": "thursday",
+        "message": "High occupancy predicted"
+      }
+    ],
+    "lowTraffic": [
+      {
+        "gym": "activity-center",
+        "time": "06:00",
+        "day": "sunday",
+        "message": "Perfect time for a quiet workout"
+      },
+      {
+        "gym": "rec-center-west",
+        "time": "22:00",
+        "day": "monday",
+        "message": "Low traffic - great for focused training"
+      }
+    ]
+  },
+  "facilityInfo": {
+    "activity-center": {
+      "name": "Activity Center",
+      "location": "Main Campus",
+      "hours": {
+        "monday": "06:00-23:00",
+        "tuesday": "06:00-23:00",
+        "wednesday": "06:00-23:00",
+        "thursday": "06:00-23:00",
+        "friday": "06:00-22:00",
+        "saturday": "08:00-20:00",
+        "sunday": "08:00-20:00"
+      },
+      "amenities": [
+        "Cardio Equipment",
+        "Weight Training",
+        "Basketball Courts",
+        "Indoor Track",
+        "Swimming Pool",
+        "Racquetball Courts"
+      ],
+      "capacity": 150
+    },
+    "rec-center-west": {
+      "name": "Rec Center West",
+      "location": "West Campus",
+      "hours": {
+        "monday": "06:00-22:00",
+        "tuesday": "06:00-22:00",
+        "wednesday": "06:00-22:00",
+        "thursday": "06:00-22:00",
+        "friday": "06:00-21:00",
+        "saturday": "08:00-18:00",
+        "sunday": "08:00-18:00"
+      },
+      "amenities": [
+        "Cardio Equipment",
+        "Weight Training",
+        "Group Fitness Studio",
+        "Climbing Wall",
+        "Outdoor Equipment"
+      ],
+      "capacity": 100
+    }
+  }
+} 
