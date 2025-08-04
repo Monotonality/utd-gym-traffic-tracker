@@ -1,45 +1,133 @@
-/* Custom styles for UTD Gym Traffic Tracker */
+/* UTD Gym Traffic Tracker - UTDGrades-inspired styles */
 
-/* Smooth transitions for theme switching */
+/* Base styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #374151;
+}
+
+/* Smooth transitions */
 * {
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-/* Custom scrollbar for webkit browsers */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f5f9;
+    background: #f9fafb;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: #d1d5db;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: #9ca3af;
 }
 
-/* Dark mode scrollbar */
-.dark ::-webkit-scrollbar-track {
-    background: #1e293b;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-    background: #475569;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
-
-/* Custom focus styles */
+/* Focus styles */
 .focus-ring:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+}
+
+/* Form styles */
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Card styles */
+.card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Status indicators */
+.status-low {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.status-medium {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-high {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+/* Chart container */
+.chart-container {
+    position: relative;
+    height: 400px;
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+    }
 }
 
 /* Loading animation */
@@ -47,8 +135,8 @@
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid #f3f3f3;
-    border-top: 3px solid #3b82f6;
+    border: 2px solid #f3f4f6;
+    border-top: 2px solid #3b82f6;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -58,92 +146,7 @@
     100% { transform: rotate(360deg); }
 }
 
-/* Pulse animation for live data */
-.pulse {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: .5;
-    }
-}
-
-/* Custom button styles */
-.btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-}
-
-.btn-secondary {
-    @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
-}
-
-/* Status indicators */
-.status-low {
-    @apply bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
-}
-
-.status-medium {
-    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
-}
-
-.status-high {
-    @apply bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
-}
-
-/* Chart container responsive adjustments */
-@media (max-width: 768px) {
-    .chart-container {
-        height: 300px;
-    }
-}
-
-@media (min-width: 769px) {
-    .chart-container {
-        height: 400px;
-    }
-}
-
-/* Custom form styles */
-.form-input {
-    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
-}
-
-.form-select {
-    @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200;
-}
-
-/* Card hover effects */
-.card-hover {
-    @apply transition-all duration-200 hover:shadow-lg hover:-translate-y-1;
-}
-
-/* Gradient backgrounds */
-.gradient-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.gradient-secondary {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-}
-
-/* Utility classes for spacing */
-.space-y-6 > * + * {
-    margin-top: 1.5rem;
-}
-
-.space-y-4 > * + * {
-    margin-top: 1rem;
-}
-
-.space-y-2 > * + * {
-    margin-top: 0.5rem;
-}
-
-/* Custom animations */
+/* Fade in animation */
 .fade-in {
     animation: fadeIn 0.5s ease-in;
 }
@@ -159,18 +162,38 @@
     }
 }
 
-.slide-in {
-    animation: slideIn 0.3s ease-out;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.25;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translateX(-20px);
-        opacity: 0;
+/* Link styles */
+a {
+    color: #3b82f6;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+/* Radio button styles */
+input[type="radio"] {
+    accent-color: #3b82f6;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .container {
+        padding-left: 16px;
+        padding-right: 16px;
     }
-    to {
-        transform: translateX(0);
-        opacity: 1;
+    
+    .text-3xl {
+        font-size: 1.875rem;
     }
 }
 
@@ -181,11 +204,6 @@
     }
     
     body {
-        background: white !important;
-        color: black !important;
-    }
-    
-    .dark {
         background: white !important;
         color: black !important;
     }

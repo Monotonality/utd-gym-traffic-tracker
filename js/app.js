@@ -1,4 +1,4 @@
-// UTD Gym Traffic Tracker - Main Application
+// UTD Gym Traffic Tracker - Main Application (UTDGrades-style)
 class GymTrafficTracker {
     constructor() {
         this.currentGym = 'activity-center';
@@ -7,43 +7,70 @@ class GymTrafficTracker {
         this.viewMode = 'current';
         this.chart = null;
         this.updateInterval = null;
-        
+
         this.init();
     }
 
     init() {
         this.setupEventListeners();
         this.loadInitialData();
-        this.startLiveUpdates();
         this.updateDisplay();
     }
 
     setupEventListeners() {
+        // Search button
+        document.getElementById('search-btn').addEventListener('click', () => {
+            this.performSearch();
+        });
+
         // Gym selection
         document.getElementById('gym-select').addEventListener('change', (e) => {
             this.currentGym = e.target.value;
-            this.updateDisplay();
         });
 
         // Date selection
         document.getElementById('date-select').addEventListener('change', (e) => {
             this.currentDate = e.target.value;
-            this.updateDisplay();
         });
 
         // Time selection
         document.getElementById('time-select').addEventListener('change', (e) => {
             this.currentTime = e.target.value;
-            this.updateDisplay();
         });
 
         // View mode selection
         document.querySelectorAll('input[name="view-mode"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 this.viewMode = e.target.value;
-                this.updateDisplay();
             });
         });
+
+        // Enter key on search button
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && (e.target.id === 'gym-select' || e.target.id === 'date-select' || e.target.id === 'time-select')) {
+                this.performSearch();
+            }
+        });
+    }
+
+    performSearch() {
+        // Show results area
+        const resultsArea = document.getElementById('results-area');
+        resultsArea.classList.remove('hidden');
+        resultsArea.classList.add('fade-in');
+
+        // Scroll to results
+        resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Update display
+        this.updateDisplay();
+
+        // Start live updates for current view
+        if (this.viewMode === 'current') {
+            this.startLiveUpdates();
+        } else {
+            this.stopLiveUpdates();
+        }
     }
 
     loadInitialData() {
@@ -54,6 +81,9 @@ class GymTrafficTracker {
     }
 
     startLiveUpdates() {
+        // Clear existing interval
+        this.stopLiveUpdates();
+
         // Update every 30 seconds for current view
         this.updateInterval = setInterval(() => {
             if (this.viewMode === 'current') {
@@ -65,24 +95,31 @@ class GymTrafficTracker {
         this.updateCurrentData();
     }
 
+    stopLiveUpdates() {
+        if (this.updateInterval) {
+            clearInterval(this.updateInterval);
+            this.updateInterval = null;
+        }
+    }
+
     updateCurrentData() {
         const now = new Date();
         document.getElementById('update-time').textContent = now.toLocaleTimeString();
-        
+
         // Simulate live data updates
         this.updateStatusCards();
     }
 
     updateStatusCards() {
         const data = this.getSimulatedData();
-        
+
         // Update current occupancy
         document.getElementById('current-occupancy').textContent = data.currentOccupancy;
-        
+
         // Update capacity percentage
         const capacityPercentage = Math.round((data.currentOccupancy / data.maxCapacity) * 100);
         document.getElementById('capacity-percentage').textContent = `${capacityPercentage}%`;
-        
+
         // Update wait time based on occupancy
         let waitTime = '0 min';
         if (capacityPercentage > 80) {
@@ -100,13 +137,13 @@ class GymTrafficTracker {
 
     updateChart() {
         const data = this.getChartData();
-        
+
         if (this.chart) {
             this.chart.destroy();
         }
 
         const ctx = document.getElementById('traffic-chart').getContext('2d');
-        
+
         this.chart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -117,7 +154,12 @@ class GymTrafficTracker {
                     borderColor: '#3b82f6',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
-                    fill: true
+                    fill: true,
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
                 }]
             },
             options: {
@@ -132,7 +174,9 @@ class GymTrafficTracker {
                         intersect: false,
                         backgroundColor: 'rgba(0, 0, 0, 0.8)',
                         titleColor: '#ffffff',
-                        bodyColor: '#ffffff'
+                        bodyColor: '#ffffff',
+                        cornerRadius: 8,
+                        displayColors: false
                     }
                 },
                 scales: {
@@ -141,7 +185,10 @@ class GymTrafficTracker {
                             color: 'rgba(156, 163, 175, 0.2)'
                         },
                         ticks: {
-                            color: '#6b7280'
+                            color: '#6b7280',
+                            font: {
+                                size: 12
+                            }
                         }
                     },
                     y: {
@@ -151,7 +198,10 @@ class GymTrafficTracker {
                             color: 'rgba(156, 163, 175, 0.2)'
                         },
                         ticks: {
-                            color: '#6b7280'
+                            color: '#6b7280',
+                            font: {
+                                size: 12
+                            }
                         }
                     }
                 },
@@ -165,8 +215,6 @@ class GymTrafficTracker {
     }
 
     getChartData() {
-        const data = this.getSimulatedData();
-        
         if (this.viewMode === 'current') {
             return this.generateCurrentData();
         } else if (this.viewMode === 'historical') {
@@ -179,7 +227,7 @@ class GymTrafficTracker {
     generateCurrentData() {
         const hours = [];
         const values = [];
-        
+
         for (let i = 0; i < 24; i++) {
             hours.push(`${i}:00`);
             // Simulate realistic gym traffic patterns
@@ -188,24 +236,24 @@ class GymTrafficTracker {
             if (i >= 12 && i <= 14) baseTraffic = 80; // Lunch time
             if (i >= 17 && i <= 21) baseTraffic = 120; // Evening peak
             if (i >= 22 || i <= 5) baseTraffic = 10; // Late night/early morning
-            
+
             values.push(baseTraffic + Math.random() * 20);
         }
-        
+
         return { labels: hours, values: values };
     }
 
     generateHistoricalData() {
         const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         const values = [85, 92, 78, 95, 88, 45, 35]; // Weekend dip
-        
+
         return { labels: days, values: values };
     }
 
     generatePredictedData() {
         const hours = [];
         const values = [];
-        
+
         for (let i = 0; i < 24; i++) {
             hours.push(`${i}:00`);
             let baseTraffic = 25;
@@ -213,23 +261,23 @@ class GymTrafficTracker {
             if (i >= 12 && i <= 14) baseTraffic = 85;
             if (i >= 17 && i <= 21) baseTraffic = 125;
             if (i >= 22 || i <= 5) baseTraffic = 15;
-            
+
             values.push(baseTraffic + Math.random() * 15);
         }
-        
+
         return { labels: hours, values: values };
     }
 
     getSimulatedData() {
         const now = new Date();
         const hour = now.getHours();
-        
+
         // Base capacity for both gyms
         const maxCapacity = this.currentGym === 'activity-center' ? 150 : 100;
-        
+
         // Simulate realistic traffic patterns
         let currentOccupancy = 30; // Base occupancy
-        
+
         if (hour >= 6 && hour <= 8) {
             currentOccupancy = 60 + Math.random() * 20; // Morning rush
         } else if (hour >= 12 && hour <= 14) {
@@ -239,11 +287,11 @@ class GymTrafficTracker {
         } else if (hour >= 22 || hour <= 5) {
             currentOccupancy = 10 + Math.random() * 10; // Late night/early morning
         }
-        
+
         // Add some randomness
         currentOccupancy += Math.random() * 20 - 10;
         currentOccupancy = Math.max(0, Math.min(maxCapacity, currentOccupancy));
-        
+
         return {
             currentOccupancy: Math.round(currentOccupancy),
             maxCapacity: maxCapacity,
@@ -253,26 +301,24 @@ class GymTrafficTracker {
 
     // Utility methods
     formatTime(time) {
-        return new Date(`2000-01-01T${time}`).toLocaleTimeString([], { 
-            hour: '2-digit', 
-            minute: '2-digit' 
+        return new Date(`2000-01-01T${time}`).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
         });
     }
 
     formatDate(date) {
-        return new Date(date).toLocaleDateString([], { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        return new Date(date).toLocaleDateString([], {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
     }
 
     // Cleanup method
     destroy() {
-        if (this.updateInterval) {
-            clearInterval(this.updateInterval);
-        }
+        this.stopLiveUpdates();
         if (this.chart) {
             this.chart.destroy();
         }
