@@ -73,24 +73,7 @@ The ultimate goal is to integrate with the UTD system to pull actual student swi
 - Social features (workout buddy finder)
 - Integration with fitness tracking apps
 
-## 7. Success Metrics
-
-### User Engagement
-- Number of daily active users
-- Time spent on the application
-- Return visit frequency
-
-### User Satisfaction
-- User feedback and ratings
-- Reduction in gym wait times reported by users
-- Adoption rate among UTD student population
-
-### Technical Performance
-- Page load times
-- Application responsiveness
-- Cross-browser compatibility
-
-## 8. Constraints and Limitations
+## 7. Constraints and Limitations
 
 ### Current Phase
 - Simulated data only (no real-time integration)
@@ -102,44 +85,5 @@ The ultimate goal is to integrate with the UTD system to pull actual student swi
 - Should be responsive for various screen sizes
 - Must maintain accessibility standards
 
-## 9. Timeline and Milestones
-
-### Phase 1: Core Development
-- Basic UI/UX implementation
-- Gym selection functionality
-- Data visualization components
-- Light/dark mode toggle
-
-### Phase 2: Data and Interactivity
-- Simulated data implementation
-- Historical data display
-- Form submission and date/time selection
-- Predictive usage features
-
-### Phase 3: Polish and Testing
-- Cross-browser testing
-- Performance optimization
-- User feedback integration
-- Final deployment
-
-## 10. Risk Assessment
-
-### Technical Risks
-- Browser compatibility issues
-- Performance issues with large datasets
-- Charting library integration challenges
-
-### User Adoption Risks
-- Low initial user engagement
-- Competition from existing gym apps
-- Limited awareness among target users
-
-### Mitigation Strategies
-- Comprehensive testing across browsers
-- Performance monitoring and optimization
-- User feedback collection and iteration
-- Marketing and awareness campaigns
-
----
 
 *This PRD serves as a living document and will be updated as the project evolves and new requirements are identified.* 
