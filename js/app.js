@@ -15,6 +15,7 @@ class GymTrafficTracker {
         this.setupEventListeners();
         this.loadInitialData();
         this.updateDisplay();
+        this.startLiveUpdates(); // Start live updates immediately
     }
 
     setupEventListeners() {
@@ -26,22 +27,26 @@ class GymTrafficTracker {
         // Gym selection
         document.getElementById('gym-select').addEventListener('change', (e) => {
             this.currentGym = e.target.value;
+            this.updateDisplay(); // Update immediately when gym changes
         });
 
         // Date selection
         document.getElementById('date-select').addEventListener('change', (e) => {
             this.currentDate = e.target.value;
+            this.updateDisplay(); // Update immediately when date changes
         });
 
         // Time selection
         document.getElementById('time-select').addEventListener('change', (e) => {
             this.currentTime = e.target.value;
+            this.updateDisplay(); // Update immediately when time changes
         });
 
         // View mode selection
         document.querySelectorAll('input[name="view-mode"]').forEach(radio => {
             radio.addEventListener('change', (e) => {
                 this.viewMode = e.target.value;
+                this.updateDisplay(); // Update immediately when view mode changes
             });
         });
 
@@ -54,14 +59,6 @@ class GymTrafficTracker {
     }
 
     performSearch() {
-        // Show results area
-        const resultsArea = document.getElementById('results-area');
-        resultsArea.classList.remove('hidden');
-        resultsArea.classList.add('fade-in');
-
-        // Scroll to results
-        resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
         // Update display
         this.updateDisplay();
 
@@ -70,6 +67,12 @@ class GymTrafficTracker {
             this.startLiveUpdates();
         } else {
             this.stopLiveUpdates();
+        }
+
+        // Scroll to results if not already visible
+        const resultsArea = document.getElementById('results-area');
+        if (resultsArea.getBoundingClientRect().top > window.innerHeight) {
+            resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }
 
