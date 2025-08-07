@@ -1,4 +1,9 @@
 // UTD Gym Traffic Tracker - Main Application
+
+/**
+ * Main application class for the UTD Gym Traffic Tracker
+ * Manages UI interactions, state management, and data visualization
+ */
 class GymTrafficTracker {
     constructor() {
         this.currentGym = 'activity-center';
@@ -9,7 +14,6 @@ class GymTrafficTracker {
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
         this.currentDate = `${year}-${month}-${day}`;
-        console.log(`Initialized current date: ${this.currentDate}`);
         
         this.currentTime = new Date().toTimeString().slice(0, 5);
         this.chart = null;
@@ -27,10 +31,12 @@ class GymTrafficTracker {
         this.init();
     }
 
-    // Centralized state management methods
+    /**
+     * Centralized state management for date updates
+     * @param {string} newDate - Date in YYYY-MM-DD format
+     * @param {string} context - Optional context for debugging
+     */
     updateSelectedDate(newDate, context = null) {
-        console.log(`Updating selected date from ${this.state.selectedDate} to ${newDate} (context: ${context})`);
-        
         // Update the main selected date
         this.state.selectedDate = newDate;
         this.currentDate = newDate;
@@ -52,10 +58,13 @@ class GymTrafficTracker {
         } else {
             this.resetDateInputDisplay();
         }
-        
-        console.log(`State after update:`, this.state);
     }
 
+    /**
+     * Get the appropriate date for a specific view
+     * @param {string} targetView - The view type ('day' or 'week')
+     * @returns {string} Date in YYYY-MM-DD format
+     */
     getSelectedDateForView(targetView) {
         if (targetView === 'day') {
             return this.state.lastDayViewDate;
@@ -65,9 +74,12 @@ class GymTrafficTracker {
         return this.state.selectedDate;
     }
 
+    /**
+     * Preserve state when switching between views
+     * @param {string} fromView - Current view being switched from
+     * @param {string} toView - Target view being switched to
+     */
     preserveViewState(fromView, toView) {
-        console.log(`Preserving state when switching from ${fromView} to ${toView}`);
-        
         // Save current state before switching
         if (fromView === 'day') {
             this.state.lastDayViewDate = this.state.selectedDate;
@@ -87,10 +99,11 @@ class GymTrafficTracker {
         
         // Restore view (will be set again in switchToView, but needed for proper display)
         this.currentView = oldView;
-        
-        console.log(`Preserved state:`, this.state);
     }
 
+    /**
+     * Initialize the application
+     */
     init() {
         this.setupEventListeners();
         this.loadInitialData();
@@ -98,6 +111,9 @@ class GymTrafficTracker {
         this.startLiveUpdates();
     }
 
+    /**
+     * Set up event listeners for UI interactions
+     */
     setupEventListeners() {
         // Gym selection
         document.getElementById('gym-select').addEventListener('change', (e) => {
@@ -156,23 +172,16 @@ class GymTrafficTracker {
         });
     }
 
+    /**
+     * Initialize form inputs with default values
+     */
     loadInitialData() {
         // Set default values
-        console.log(`Setting date input to: ${this.currentDate}`);
         const dateInput = document.getElementById('date-select');
         dateInput.value = this.currentDate;
         
         document.getElementById('time-select').value = this.currentTime;
         document.getElementById('gym-select').value = this.currentGym;
-        
-        // Verify what was actually set
-        console.log(`Date input actual value: ${dateInput.value}`);
-        console.log(`Date input valueAsDate: ${dateInput.valueAsDate}`);
-        
-        // Force refresh to ensure the input shows the correct value
-        setTimeout(() => {
-            console.log(`Date input value after timeout: ${dateInput.value}`);
-        }, 100);
     }
 
     startLiveUpdates() {
@@ -996,15 +1005,8 @@ class GymTrafficTracker {
         const isPastDate = selectedDateOnly < todayOnly;
         const isFutureDate = selectedDateOnly > todayOnly;
 
-        console.log(`Selected date: ${this.currentDate}`);
-        console.log(`Today: ${today.toDateString()}`);
-        console.log(`Selected date only: ${selectedDateOnly.toDateString()}`);
-        console.log(`Today only: ${todayOnly.toDateString()}`);
-        console.log(`Is today: ${isToday}, Is past: ${isPastDate}, Is future: ${isFutureDate}`);
-
         // If viewing past date, everything is historical (blue)
         if (isPastDate) {
-            console.log('Showing past date - all blue');
             return [{
                 label: 'Historical Data',
                 data: chartData.values,
@@ -1022,7 +1024,6 @@ class GymTrafficTracker {
 
         // If viewing future date, everything is predicted (red)
         if (isFutureDate) {
-            console.log('Showing future date - all red');
             return [{
                 label: 'Predicted Data',
                 data: chartData.values,
@@ -1040,16 +1041,12 @@ class GymTrafficTracker {
 
         // If viewing today, use the new mixed data method for proper static/dynamic split
         if (isToday) {
-            console.log('Showing today - using mixed historical/predicted data');
             
             // Use the new method that provides properly separated static/dynamic data
             if (window.dataManager && window.dataManager.getTodayTrafficData) {
                 const todayData = window.dataManager.getTodayTrafficData(this.currentGym);
                 
                 if (todayData) {
-                    console.log(`Split at hour: ${todayData.splitHour}`);
-                    console.log('Historical values:', todayData.historicalValues);
-                    console.log('Predicted values:', todayData.predictedValues);
                     
                     return [
                         {
@@ -1085,9 +1082,6 @@ class GymTrafficTracker {
             // Fallback to original logic if new method isn't available
             const currentHour = now.getHours();
             const currentMinutes = now.getMinutes();
-            
-            console.log(`Current time: ${currentHour}:${currentMinutes.toString().padStart(2, '0')}`);
-            console.log('Chart labels:', chartData.labels);
             
             // Find the split point in the data
             let splitIndex = -1;

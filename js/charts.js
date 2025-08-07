@@ -1,4 +1,9 @@
 // UTD Gym Traffic Tracker - Charts Module
+
+/**
+ * Manages chart creation and configuration using Chart.js
+ * Provides methods for creating line charts, bar charts, and other visualizations
+ */
 class ChartManager {
     constructor() {
         this.charts = new Map();
@@ -14,7 +19,13 @@ class ChartManager {
         ];
     }
 
-    // Create a line chart for time series data
+    /**
+     * Create a line chart for time series data
+     * @param {string} canvasId - The ID of the canvas element
+     * @param {Object} data - Chart data object
+     * @param {Object} options - Chart configuration options
+     * @returns {Chart} The created chart instance
+     */
     createLineChart(canvasId, data, options = {}) {
         const ctx = document.getElementById(canvasId).getContext('2d');
         

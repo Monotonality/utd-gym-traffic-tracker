@@ -1,4 +1,8 @@
 // UTD Gym Traffic Tracker - Data Module
+
+/**
+ * Manages gym traffic data including historical and predicted traffic patterns
+ */
 class DataManager {
     constructor() {
         this.gymData = {
@@ -96,7 +100,11 @@ class DataManager {
         return patterns;
     }
 
-    // Get current traffic data for a specific gym (DYNAMIC for current time)
+    /**
+     * Get current traffic data for a specific gym (DYNAMIC for current time)
+     * @param {string} gymId - The gym identifier
+     * @returns {Object} Current traffic data including occupancy and capacity
+     */
     getCurrentTraffic(gymId) {
         const gym = this.gymData[gymId];
         if (!gym) return null;
@@ -411,7 +419,12 @@ class DataManager {
         };
     }
 
-    // Get weekly traffic data with historical/predicted split
+    /**
+     * Get weekly traffic data with historical/predicted split
+     * @param {string} gymId - The gym identifier
+     * @param {string|null} baseDate - Base date in YYYY-MM-DD format, or null for current date
+     * @returns {Object} Weekly traffic data with historical and predicted values
+     */
     getWeeklyTrafficData(gymId, baseDate = null) {
         const gym = this.gymData[gymId];
         if (!gym) return null;
