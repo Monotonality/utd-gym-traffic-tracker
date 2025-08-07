@@ -417,7 +417,14 @@ class DataManager {
         if (!gym) return null;
 
         // Use provided date or current date as reference
-        const referenceDate = baseDate ? new Date(baseDate) : new Date();
+        let referenceDate;
+        if (baseDate) {
+            // Parse the date string properly to avoid timezone issues
+            const [year, month, day] = baseDate.split('-').map(Number);
+            referenceDate = new Date(year, month - 1, day); // month is 0-indexed
+        } else {
+            referenceDate = new Date();
+        }
         
         // Get Sunday of the week containing the reference date
         const sundayOfWeek = new Date(referenceDate);

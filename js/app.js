@@ -15,10 +15,80 @@ class GymTrafficTracker {
         this.chart = null;
         this.updateInterval = null;
         this.currentView = 'day'; // 'day' or 'week'
-        this.lastDayViewDate = this.currentDate; // Track the last selected date in day view
-        this.lastWeekViewDate = this.currentDate; // Track the last selected week (stored as Sunday date)
+        
+        // Robust state management for date preservation
+        this.state = {
+            selectedDate: this.currentDate,        // Currently active date
+            lastDayViewDate: this.currentDate,     // Last date selected in Day View
+            lastWeekViewDate: this.currentDate,    // Last week selected in Week View (Sunday date)
+            initialDayDate: this.currentDate       // Original day date when app started
+        };
 
         this.init();
+    }
+
+    // Centralized state management methods
+    updateSelectedDate(newDate, context = null) {
+        console.log(`Updating selected date from ${this.state.selectedDate} to ${newDate} (context: ${context})`);
+        
+        // Update the main selected date
+        this.state.selectedDate = newDate;
+        this.currentDate = newDate;
+        
+        // Update view-specific tracking based on current view
+        if (this.currentView === 'day') {
+            this.state.lastDayViewDate = newDate;
+        } else if (this.currentView === 'week') {
+            this.state.lastWeekViewDate = newDate;
+        }
+        
+        // Update the date input with proper display based on current view
+        const dateInput = document.getElementById('date-select');
+        dateInput.value = newDate;
+        
+        // Ensure correct display format based on current view
+        if (this.currentView === 'week') {
+            this.updateDateInputForWeekView();
+        } else {
+            this.resetDateInputDisplay();
+        }
+        
+        console.log(`State after update:`, this.state);
+    }
+
+    getSelectedDateForView(targetView) {
+        if (targetView === 'day') {
+            return this.state.lastDayViewDate;
+        } else if (targetView === 'week') {
+            return this.state.lastWeekViewDate;
+        }
+        return this.state.selectedDate;
+    }
+
+    preserveViewState(fromView, toView) {
+        console.log(`Preserving state when switching from ${fromView} to ${toView}`);
+        
+        // Save current state before switching
+        if (fromView === 'day') {
+            this.state.lastDayViewDate = this.state.selectedDate;
+        } else if (fromView === 'week') {
+            this.state.lastWeekViewDate = this.state.selectedDate;
+        }
+        
+        // Get the appropriate date for the target view
+        const targetDate = this.getSelectedDateForView(toView);
+        
+        // Update the current view temporarily for proper date display
+        const oldView = this.currentView;
+        this.currentView = toView;
+        
+        // Apply the date for the new view with correct display format
+        this.updateSelectedDate(targetDate, `switch-to-${toView}`);
+        
+        // Restore view (will be set again in switchToView, but needed for proper display)
+        this.currentView = oldView;
+        
+        console.log(`Preserved state:`, this.state);
     }
 
     init() {
@@ -37,16 +107,17 @@ class GymTrafficTracker {
 
         // Date selection
         document.getElementById('date-select').addEventListener('change', (e) => {
-            this.currentDate = e.target.value;
+            const newDate = e.target.value;
             
-            // Track state changes based on current view
             if (this.currentView === 'day') {
-                this.lastDayViewDate = this.currentDate;
+                // Direct date selection in Day View
+                this.updateSelectedDate(newDate, 'day-date-select');
                 this.updateDisplay();
             } else if (this.currentView === 'week') {
-                // Snap to Sunday of the selected week
+                // Date selection in Week View - snap to Sunday of the selected week
+                this.currentDate = newDate; // Temporarily set for calculation
                 this.updateDateToSundayOfWeek();
-                this.lastWeekViewDate = this.currentDate;
+                this.updateSelectedDate(this.currentDate, 'week-date-select');
                 // Force update the chart and status for week view
                 this.updateChart();
                 this.updateStatusCards();
@@ -292,9 +363,14 @@ class GymTrafficTracker {
 
     switchToView(viewType) {
         const previousView = this.currentView;
+        
+        // Preserve state when switching views
+        this.preserveViewState(previousView, viewType);
+        
+        // Update current view
         this.currentView = viewType;
         
-        // Handle view transition logic
+        // Handle view-specific transition logic
         if (viewType === 'day' && previousView === 'week') {
             // Switching from week to day view
             this.handleWeekToDayTransition();
@@ -325,48 +401,51 @@ class GymTrafficTracker {
     }
 
     handleDayToWeekTransition() {
-        // Save the current day as last day view date
-        this.lastDayViewDate = this.currentDate;
-        
-        // Find the Sunday of the week containing the current day
-        const currentDay = new Date(this.currentDate);
+        // Get the currently selected date and find the Sunday of that week
+        const [year, month, day] = this.state.selectedDate.split('-').map(Number);
+        const currentDay = new Date(year, month - 1, day);
         const dayOfWeek = currentDay.getDay();
         const sundayOfWeek = new Date(currentDay);
         sundayOfWeek.setDate(currentDay.getDate() - dayOfWeek);
         
-        // Set the week view to show the week containing the current day
-        const sundayDateString = sundayOfWeek.toISOString().split('T')[0];
-        this.currentDate = sundayDateString;
-        this.lastWeekViewDate = sundayDateString;
+        // Format Sunday date
+        const sundayYear = sundayOfWeek.getFullYear();
+        const sundayMonth = String(sundayOfWeek.getMonth() + 1).padStart(2, '0');
+        const sundayDay = String(sundayOfWeek.getDate()).padStart(2, '0');
+        const sundayDateString = `${sundayYear}-${sundayMonth}-${sundayDay}`;
         
-        // Update the date input
-        document.getElementById('date-select').value = this.currentDate;
+        // Update state for week view
+        this.updateSelectedDate(sundayDateString, 'day-to-week-transition');
         this.updateDateInputForWeekView();
     }
 
     handleWeekToDayTransition() {
-        // Save the current week as last week view date
-        this.lastWeekViewDate = this.currentDate;
-        
-        // Check if the last day view date is within the currently selected week
-        const currentWeekSunday = new Date(this.currentDate);
+        // Parse the current week date (should be a Sunday)
+        const [currentYear, currentMonth, currentDay] = this.state.selectedDate.split('-').map(Number);
+        const currentWeekSunday = new Date(currentYear, currentMonth - 1, currentDay);
         const currentWeekSaturday = new Date(currentWeekSunday);
         currentWeekSaturday.setDate(currentWeekSunday.getDate() + 6);
         
-        const lastDayDate = new Date(this.lastDayViewDate);
+        // Parse the last day view date
+        const [lastYear, lastMonth, lastDay] = this.state.lastDayViewDate.split('-').map(Number);
+        const lastDayDate = new Date(lastYear, lastMonth - 1, lastDay);
+        
+        let targetDate;
         
         // Check if last day is within current week
         if (lastDayDate >= currentWeekSunday && lastDayDate <= currentWeekSaturday) {
             // Last day is in current week, use it
-            this.currentDate = this.lastDayViewDate;
+            targetDate = this.state.lastDayViewDate;
         } else {
             // Last day is not in current week, default to Sunday (first day of current week)
-            this.currentDate = currentWeekSunday.toISOString().split('T')[0];
-            this.lastDayViewDate = this.currentDate; // Update the tracker
+            const year = currentWeekSunday.getFullYear();
+            const month = String(currentWeekSunday.getMonth() + 1).padStart(2, '0');
+            const day = String(currentWeekSunday.getDate()).padStart(2, '0');
+            targetDate = `${year}-${month}-${day}`;
         }
         
-        // Update the date input
-        document.getElementById('date-select').value = this.currentDate;
+        // Update state for day view
+        this.updateSelectedDate(targetDate, 'week-to-day-transition');
     }
 
     updateNavigationForView(viewType) {
@@ -394,6 +473,9 @@ class GymTrafficTracker {
             // Hide week navigation
             weekContainer.style.display = 'none';
             
+            // Reset date input display to single date (remove week range overlay)
+            this.resetDateInputDisplay();
+            
             // Reset status card labels to daily context
             this.resetStatusLabelsToDaily();
         }
@@ -401,17 +483,19 @@ class GymTrafficTracker {
 
     navigateWeek(direction) {
         // direction: -1 for previous week, +1 for next week
-        const currentSunday = new Date(this.currentDate);
+        // Parse the current date string properly to avoid timezone issues
+        const [year, month, day] = this.state.selectedDate.split('-').map(Number);
+        const currentSunday = new Date(year, month - 1, day); // month is 0-indexed
         currentSunday.setDate(currentSunday.getDate() + (direction * 7));
         
         // Update the current date to the new Sunday
-        const year = currentSunday.getFullYear();
-        const month = String(currentSunday.getMonth() + 1).padStart(2, '0');
-        const day = String(currentSunday.getDate()).padStart(2, '0');
-        this.currentDate = `${year}-${month}-${day}`;
+        const newYear = currentSunday.getFullYear();
+        const newMonth = String(currentSunday.getMonth() + 1).padStart(2, '0');
+        const newDay = String(currentSunday.getDate()).padStart(2, '0');
+        const newDate = `${newYear}-${newMonth}-${newDay}`;
         
-        // Update state tracking
-        this.lastWeekViewDate = this.currentDate;
+        // Update state
+        this.updateSelectedDate(newDate, `navigate-week-${direction > 0 ? 'next' : 'prev'}`);
         
         // Update the display
         this.updateWeekDisplay();
@@ -425,8 +509,11 @@ class GymTrafficTracker {
         const currentWeekDisplay = document.getElementById('current-week-display');
         if (!currentWeekDisplay) return;
         
+        // Parse the current date string properly to avoid timezone issues
+        const [year, month, day] = this.state.selectedDate.split('-').map(Number);
+        const sundayDate = new Date(year, month - 1, day); // month is 0-indexed
+        
         // Calculate Saturday date (6 days after Sunday)
-        const sundayDate = new Date(this.currentDate);
         const saturdayDate = new Date(sundayDate);
         saturdayDate.setDate(sundayDate.getDate() + 6);
         
@@ -439,17 +526,19 @@ class GymTrafficTracker {
     }
 
     updateDateToSundayOfWeek() {
-        const currentDate = new Date(this.currentDate);
+        // Parse the current date string properly to avoid timezone issues
+        const [year, month, day] = this.currentDate.split('-').map(Number);
+        const currentDate = new Date(year, month - 1, day); // month is 0-indexed
         const dayOfWeek = currentDate.getDay();
         const daysToSunday = dayOfWeek; // Sunday (0) is the start, so subtract current day
         
         const sundayOfWeek = new Date(currentDate);
         sundayOfWeek.setDate(currentDate.getDate() - daysToSunday);
         
-        const year = sundayOfWeek.getFullYear();
-        const month = String(sundayOfWeek.getMonth() + 1).padStart(2, '0');
-        const day = String(sundayOfWeek.getDate()).padStart(2, '0');
-        const sundayDateString = `${year}-${month}-${day}`;
+        const sundayYear = sundayOfWeek.getFullYear();
+        const sundayMonth = String(sundayOfWeek.getMonth() + 1).padStart(2, '0');
+        const sundayDay = String(sundayOfWeek.getDate()).padStart(2, '0');
+        const sundayDateString = `${sundayYear}-${sundayMonth}-${sundayDay}`;
         
         // Update the date if it's different
         if (this.currentDate !== sundayDateString) {
@@ -467,8 +556,11 @@ class GymTrafficTracker {
         const dateInput = document.getElementById('date-select');
         
         if (this.currentView === 'week') {
+            // Parse the current date string properly to avoid timezone issues
+            const [year, month, day] = this.state.selectedDate.split('-').map(Number);
+            const sundayDate = new Date(year, month - 1, day); // month is 0-indexed
+            
             // Calculate Saturday date (6 days after Sunday)
-            const sundayDate = new Date(this.currentDate);
             const saturdayDate = new Date(sundayDate);
             saturdayDate.setDate(sundayDate.getDate() + 6);
             
@@ -479,14 +571,14 @@ class GymTrafficTracker {
             
             // Set the date input to show the range (but keep the actual value as Sunday for backend)
             dateInput.setAttribute('data-week-range', weekRange);
-            dateInput.value = this.currentDate; // Keep Sunday date as the actual value
+            dateInput.value = this.state.selectedDate; // Keep Sunday date as the actual value
             
             // Update the visual display
             this.updateDateInputDisplay(weekRange);
         } else {
             // Reset to normal single date display for Day View
             dateInput.removeAttribute('data-week-range');
-            dateInput.value = this.currentDate;
+            dateInput.value = this.state.selectedDate;
             this.resetDateInputDisplay();
         }
     }
