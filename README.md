@@ -138,35 +138,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Tailwind CSS**: For the modern utility-first CSS framework
 - **UTD Students**: For feedback and testing
 
-## 📞 Support
-
-For questions, issues, or feature requests:
-- Create an issue on GitHub
-- Contact the development team
-- Check the [PRD.md](PRD.md) for detailed requirements
-
-## 🔮 Roadmap
-
-### Phase 1 (Current)
-- ✅ Basic traffic monitoring
-- ✅ Responsive design
-- ✅ Chart visualizations
-- ✅ Simulated data
-
-### Phase 2 (Planned)
-- 🔄 Real-time API integration
-- 🔄 User authentication
-- 🔄 Push notifications
-- 🔄 Advanced analytics
-
-### Phase 3 (Future)
-- 📋 Mobile app development
-- 📋 IoT sensor integration
-- 📋 Machine learning predictions
-- 📋 Social features
-
----
-
 **Built with ❤️ for UTD Students**
 
-*Last updated: January 2024*
+*Last updated: August 2025*
