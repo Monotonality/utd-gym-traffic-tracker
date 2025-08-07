@@ -2,7 +2,15 @@
 class GymTrafficTracker {
     constructor() {
         this.currentGym = 'activity-center';
-        this.currentDate = new Date().toISOString().split('T')[0];
+        
+        // Get today's date in local timezone
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        this.currentDate = `${year}-${month}-${day}`;
+        console.log(`Initialized current date: ${this.currentDate}`);
+        
         this.currentTime = new Date().toTimeString().slice(0, 5);
         this.chart = null;
         this.updateInterval = null;
@@ -46,9 +54,21 @@ class GymTrafficTracker {
 
     loadInitialData() {
         // Set default values
-        document.getElementById('date-select').value = this.currentDate;
+        console.log(`Setting date input to: ${this.currentDate}`);
+        const dateInput = document.getElementById('date-select');
+        dateInput.value = this.currentDate;
+        
         document.getElementById('time-select').value = this.currentTime;
         document.getElementById('gym-select').value = this.currentGym;
+        
+        // Verify what was actually set
+        console.log(`Date input actual value: ${dateInput.value}`);
+        console.log(`Date input valueAsDate: ${dateInput.valueAsDate}`);
+        
+        // Force refresh to ensure the input shows the correct value
+        setTimeout(() => {
+            console.log(`Date input value after timeout: ${dateInput.value}`);
+        }, 100);
     }
 
     startLiveUpdates() {
@@ -245,11 +265,11 @@ class GymTrafficTracker {
         }
 
         const now = new Date();
-        const selectedDate = new Date(this.currentDate);
         const today = new Date();
         
-        // Reset time for proper date comparison
-        const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+        // Parse the selected date string properly to avoid timezone issues
+        const [year, month, day] = this.currentDate.split('-').map(Number);
+        const selectedDateOnly = new Date(year, month - 1, day); // month is 0-indexed
         const todayOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         
         const isToday = selectedDateOnly.getTime() === todayOnly.getTime();
@@ -257,6 +277,9 @@ class GymTrafficTracker {
         const isFutureDate = selectedDateOnly > todayOnly;
 
         console.log(`Selected date: ${this.currentDate}`);
+        console.log(`Today: ${today.toDateString()}`);
+        console.log(`Selected date only: ${selectedDateOnly.toDateString()}`);
+        console.log(`Today only: ${todayOnly.toDateString()}`);
         console.log(`Is today: ${isToday}, Is past: ${isPastDate}, Is future: ${isFutureDate}`);
 
         // If viewing past date, everything is historical (blue)
