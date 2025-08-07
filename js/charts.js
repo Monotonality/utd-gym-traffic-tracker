@@ -14,6 +14,86 @@ class ChartManager {
         ];
     }
 
+    // Create a line chart for time series data
+    createLineChart(canvasId, data, options = {}) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        
+        const defaultOptions = {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: data.label || 'Gym Traffic',
+                    data: data.values,
+                    borderColor: this.defaultColors[0],
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: this.defaultColors[0],
+                    pointBorderColor: '#ffffff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#ffffff',
+                        bodyColor: '#ffffff',
+                        cornerRadius: 8,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(156, 163, 175, 0.2)'
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        };
+
+        const mergedOptions = this.mergeOptions(defaultOptions, options);
+        
+        const chart = new Chart(ctx, mergedOptions);
+        this.charts.set(canvasId, chart);
+        
+        return chart;
+    }
+
     // Create a bar chart for historical data
     createBarChart(canvasId, data, options = {}) {
         const ctx = document.getElementById(canvasId).getContext('2d');
@@ -61,79 +141,6 @@ class ChartManager {
                             color: '#6b7280'
                         }
                     }
-                }
-            }
-        };
-
-        // Merge custom options
-        const mergedOptions = this.mergeOptions(defaultOptions, options);
-        
-        const chart = new Chart(ctx, mergedOptions);
-        this.charts.set(canvasId, chart);
-        
-        return chart;
-    }
-
-    // Create a line chart for time series data
-    createLineChart(canvasId, data, options = {}) {
-        const ctx = document.getElementById(canvasId).getContext('2d');
-        
-        const defaultOptions = {
-            type: 'line',
-            data: {
-                labels: data.labels,
-                datasets: [{
-                    label: data.label || 'Gym Traffic',
-                    data: data.values,
-                    borderColor: this.defaultColors[0],
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: this.defaultColors[0],
-                    pointBorderColor: '#ffffff',
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                        titleColor: '#ffffff',
-                        bodyColor: '#ffffff'
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            color: 'rgba(156, 163, 175, 0.2)'
-                        },
-                        ticks: {
-                            color: '#6b7280'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(156, 163, 175, 0.2)'
-                        },
-                        ticks: {
-                            color: '#6b7280'
-                        }
-                    }
-                },
-                interaction: {
-                    mode: 'nearest',
-                    axis: 'x',
-                    intersect: false
                 }
             }
         };
@@ -190,86 +197,6 @@ class ChartManager {
         return chart;
     }
 
-    // Create a heatmap chart for weekly patterns
-    createHeatmapChart(canvasId, data, options = {}) {
-        const ctx = document.getElementById(canvasId).getContext('2d');
-        
-        // Convert data to heatmap format
-        const heatmapData = this.convertToHeatmapData(data);
-        
-        const defaultOptions = {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                    label: 'Traffic Heatmap',
-                    data: heatmapData,
-                    backgroundColor: (context) => {
-                        const value = context.parsed.y;
-                        const max = Math.max(...data.values);
-                        const ratio = value / max;
-                        return `rgba(59, 130, 246, ${ratio})`;
-                    },
-                    pointRadius: 8,
-                    pointHoverRadius: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: (context) => {
-                                return `Traffic: ${context.parsed.y} people`;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom',
-                        min: 0,
-                        max: 23,
-                        ticks: {
-                            stepSize: 1,
-                            color: '#6b7280'
-                        },
-                        grid: {
-                            color: 'rgba(156, 163, 175, 0.2)'
-                        }
-                    },
-                    y: {
-                        type: 'linear',
-                        min: 0,
-                        max: 6,
-                        ticks: {
-                            stepSize: 1,
-                            color: '#6b7280',
-                            callback: (value) => {
-                                const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-                                return days[value] || '';
-                            }
-                        },
-                        grid: {
-                            color: 'rgba(156, 163, 175, 0.2)'
-                        }
-                    }
-                }
-            }
-        };
-
-        const mergedOptions = this.mergeOptions(defaultOptions, options);
-        
-        const chart = new Chart(ctx, mergedOptions);
-        this.charts.set(canvasId, chart);
-        
-        return chart;
-    }
-
     // Update existing chart
     updateChart(canvasId, newData) {
         const chart = this.charts.get(canvasId);
@@ -313,23 +240,6 @@ class ChartManager {
         }));
     }
 
-    convertToHeatmapData(data) {
-        const heatmapData = [];
-        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-        
-        data.labels.forEach((label, dayIndex) => {
-            data.values.forEach((value, hourIndex) => {
-                heatmapData.push({
-                    x: hourIndex,
-                    y: dayIndex,
-                    r: value / 10 // Size based on value
-                });
-            });
-        });
-        
-        return heatmapData;
-    }
-
     // Generate color based on traffic level
     getTrafficColor(percentage) {
         if (percentage < 30) return '#10b981'; // Green
@@ -347,8 +257,6 @@ class ChartManager {
                 return this.formatBarData(data);
             case 'doughnut':
                 return this.formatDoughnutData(data);
-            case 'heatmap':
-                return this.formatHeatmapData(data);
             default:
                 return data;
         }
@@ -380,14 +288,6 @@ class ChartManager {
             ]
         };
     }
-
-    formatHeatmapData(data) {
-        return {
-            labels: data.labels,
-            values: data.values,
-            label: 'Weekly Traffic Pattern'
-        };
-    }
 }
 
 // Initialize chart manager
@@ -396,4 +296,4 @@ window.chartManager = new ChartManager();
 // Export for potential module usage
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ChartManager;
-} 
+}

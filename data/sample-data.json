@@ -1,254 +1,128 @@
 {
-  "activity-center": {
-    "maxCapacity": 150,
-    "currentOccupancy": 87,
-    "lastUpdated": "2024-01-15T14:30:00Z",
-    "hourlyData": {
-      "0": 12,
-      "1": 8,
-      "2": 5,
-      "3": 3,
-      "4": 2,
-      "5": 4,
-      "6": 15,
-      "7": 45,
-      "8": 78,
-      "9": 65,
-      "10": 52,
-      "11": 48,
-      "12": 89,
-      "13": 95,
-      "14": 87,
-      "15": 76,
-      "16": 68,
-      "17": 92,
-      "18": 115,
-      "19": 128,
-      "20": 135,
-      "21": 118,
-      "22": 89,
-      "23": 45
-    },
-    "weeklyData": {
-      "monday": {
-        "average": 85,
-        "peak": 142,
-        "peakTime": "19:00"
+  "gyms": {
+    "activity-center": {
+      "name": "Activity Center",
+      "maxCapacity": 150,
+      "location": "UTD Campus",
+      "hours": "Mon-Thu: 7am-12am | Fri: 7am-10pm | Sat: 8am-10pm | Sun: 12pm-12am",
+      "currentTraffic": {
+        "occupancy": 85,
+        "percentage": 57,
+        "status": "medium",
+        "waitTime": "5-10 min",
+        "lastUpdated": "2024-01-15T14:30:00Z"
       },
-      "tuesday": {
-        "average": 92,
-        "peak": 156,
-        "peakTime": "18:30"
-      },
-      "wednesday": {
-        "average": 78,
-        "peak": 138,
-        "peakTime": "19:15"
-      },
-      "thursday": {
-        "average": 95,
-        "peak": 162,
-        "peakTime": "18:45"
-      },
-      "friday": {
-        "average": 88,
-        "peak": 148,
-        "peakTime": "17:30"
-      },
-      "saturday": {
-        "average": 45,
-        "peak": 89,
-        "peakTime": "10:00"
-      },
-      "sunday": {
-        "average": 35,
-        "peak": 76,
-        "peakTime": "11:00"
+      "hourlyPattern": [
+        15, 8, 5, 3, 2, 1, 2, 5, 25, 45, 65, 85, 95, 75, 65, 55, 75, 95, 115, 125, 105, 85, 45, 25
+      ],
+      "weeklyPattern": {
+        "Sunday": 35,
+        "Monday": 85,
+        "Tuesday": 92,
+        "Wednesday": 78,
+        "Thursday": 95,
+        "Friday": 88,
+        "Saturday": 45
       }
     },
-    "monthlyTrends": {
-      "january": 78,
-      "february": 82,
-      "march": 85,
-      "april": 88,
-      "may": 92,
-      "june": 65,
-      "july": 58,
-      "august": 62,
-      "september": 89,
-      "october": 91,
-      "november": 87,
-      "december": 72
+    "rec-center-west": {
+      "name": "Rec Center West",
+      "maxCapacity": 100,
+      "location": "UTD Campus",
+      "hours": "Mon-Thu: 7am-12am | Fri: 7am-10pm | Sat: 8am-10pm | Sun: 12pm-12am",
+      "currentTraffic": {
+        "occupancy": 62,
+        "percentage": 62,
+        "status": "medium",
+        "waitTime": "5-10 min",
+        "lastUpdated": "2024-01-15T14:30:00Z"
+      },
+      "hourlyPattern": [
+        12, 6, 4, 2, 1, 1, 2, 4, 18, 32, 45, 60, 68, 52, 45, 38, 52, 68, 80, 88, 74, 60, 32, 18
+      ],
+      "weeklyPattern": {
+        "Sunday": 25,
+        "Monday": 65,
+        "Tuesday": 72,
+        "Wednesday": 58,
+        "Thursday": 75,
+        "Friday": 68,
+        "Saturday": 35
+      }
     }
   },
-  "rec-center-west": {
-    "maxCapacity": 100,
-    "currentOccupancy": 52,
-    "lastUpdated": "2024-01-15T14:30:00Z",
-    "hourlyData": {
-      "0": 8,
-      "1": 5,
-      "2": 3,
-      "3": 2,
-      "4": 1,
-      "5": 2,
-      "6": 12,
-      "7": 35,
-      "8": 58,
-      "9": 48,
-      "10": 38,
-      "11": 35,
-      "12": 62,
-      "13": 68,
-      "14": 59,
-      "15": 52,
-      "16": 45,
-      "17": 68,
-      "18": 78,
-      "19": 89,
-      "20": 92,
-      "21": 85,
-      "22": 62,
-      "23": 32
-    },
-    "weeklyData": {
-      "monday": {
-        "average": 62,
-        "peak": 98,
-        "peakTime": "19:00"
+  "trafficHistory": {
+    "activity-center": {
+      "2024-01-15": {
+        "hourlyData": [
+          15, 8, 5, 3, 2, 1, 2, 5, 25, 45, 65, 85, 95, 75, 65, 55, 75, 95, 115, 125, 105, 85, 45, 25
+        ],
+        "peakHour": 19,
+        "peakTraffic": 125,
+        "averageTraffic": 58.3
       },
-      "tuesday": {
-        "average": 68,
-        "peak": 105,
-        "peakTime": "18:30"
-      },
-      "wednesday": {
-        "average": 58,
-        "peak": 92,
-        "peakTime": "19:15"
-      },
-      "thursday": {
-        "average": 72,
-        "peak": 108,
-        "peakTime": "18:45"
-      },
-      "friday": {
-        "average": 65,
-        "peak": 95,
-        "peakTime": "17:30"
-      },
-      "saturday": {
-        "average": 32,
-        "peak": 58,
-        "peakTime": "10:00"
-      },
-      "sunday": {
-        "average": 28,
-        "peak": 52,
-        "peakTime": "11:00"
+      "2024-01-14": {
+        "hourlyData": [
+          12, 6, 4, 2, 1, 1, 2, 4, 22, 42, 62, 82, 92, 72, 62, 52, 72, 92, 112, 122, 102, 82, 42, 22
+        ],
+        "peakHour": 19,
+        "peakTraffic": 122,
+        "averageTraffic": 55.8
       }
     },
-    "monthlyTrends": {
-      "january": 58,
-      "february": 62,
-      "march": 65,
-      "april": 68,
-      "may": 72,
-      "june": 48,
-      "july": 42,
-      "august": 45,
-      "september": 68,
-      "october": 70,
-      "november": 66,
-      "december": 55
+    "rec-center-west": {
+      "2024-01-15": {
+        "hourlyData": [
+          12, 6, 4, 2, 1, 1, 2, 4, 18, 32, 45, 60, 68, 52, 45, 38, 52, 68, 80, 88, 74, 60, 32, 18
+        ],
+        "peakHour": 19,
+        "peakTraffic": 88,
+        "averageTraffic": 41.2
+      },
+      "2024-01-14": {
+        "hourlyData": [
+          10, 5, 3, 2, 1, 1, 2, 4, 16, 30, 43, 58, 66, 50, 43, 36, 50, 66, 78, 86, 72, 58, 30, 16
+        ],
+        "peakHour": 19,
+        "peakTraffic": 86,
+        "averageTraffic": 39.5
+      }
     }
   },
   "predictions": {
     "activity-center": {
-      "nextHour": 92,
-      "nextDay": 89,
-      "nextWeek": 87,
-      "confidence": 0.85
+      "next24Hours": [
+        12, 6, 4, 2, 1, 1, 3, 6, 28, 48, 68, 88, 98, 78, 68, 58, 78, 98, 118, 128, 108, 88, 48, 28
+      ],
+      "nextWeek": {
+        "Monday": 90,
+        "Tuesday": 88,
+        "Wednesday": 82,
+        "Thursday": 92,
+        "Friday": 85,
+        "Saturday": 50,
+        "Sunday": 40
+      }
     },
     "rec-center-west": {
-      "nextHour": 58,
-      "nextDay": 62,
-      "confidence": 0.82
+      "next24Hours": [
+        10, 5, 3, 2, 1, 1, 2, 5, 20, 35, 48, 62, 70, 55, 48, 40, 55, 70, 82, 90, 76, 62, 35, 20
+      ],
+      "nextWeek": {
+        "Monday": 70,
+        "Tuesday": 68,
+        "Wednesday": 62,
+        "Thursday": 72,
+        "Friday": 65,
+        "Saturday": 40,
+        "Sunday": 30
+      }
     }
   },
-  "alerts": {
-    "highTraffic": [
-      {
-        "gym": "activity-center",
-        "time": "19:00",
-        "day": "tuesday",
-        "message": "Peak traffic expected - consider visiting earlier"
-      },
-      {
-        "gym": "rec-center-west",
-        "time": "18:30",
-        "day": "thursday",
-        "message": "High occupancy predicted"
-      }
-    ],
-    "lowTraffic": [
-      {
-        "gym": "activity-center",
-        "time": "06:00",
-        "day": "sunday",
-        "message": "Perfect time for a quiet workout"
-      },
-      {
-        "gym": "rec-center-west",
-        "time": "22:00",
-        "day": "monday",
-        "message": "Low traffic - great for focused training"
-      }
-    ]
-  },
-  "facilityInfo": {
-    "activity-center": {
-      "name": "Activity Center",
-      "location": "Main Campus",
-      "hours": {
-        "monday": "06:00-23:00",
-        "tuesday": "06:00-23:00",
-        "wednesday": "06:00-23:00",
-        "thursday": "06:00-23:00",
-        "friday": "06:00-22:00",
-        "saturday": "08:00-20:00",
-        "sunday": "08:00-20:00"
-      },
-      "amenities": [
-        "Cardio Equipment",
-        "Weight Training",
-        "Basketball Courts",
-        "Indoor Track",
-        "Swimming Pool",
-        "Racquetball Courts"
-      ],
-      "capacity": 150
-    },
-    "rec-center-west": {
-      "name": "Rec Center West",
-      "location": "West Campus",
-      "hours": {
-        "monday": "06:00-22:00",
-        "tuesday": "06:00-22:00",
-        "wednesday": "06:00-22:00",
-        "thursday": "06:00-22:00",
-        "friday": "06:00-21:00",
-        "saturday": "08:00-18:00",
-        "sunday": "08:00-18:00"
-      },
-      "amenities": [
-        "Cardio Equipment",
-        "Weight Training",
-        "Group Fitness Studio",
-        "Climbing Wall",
-        "Outdoor Equipment"
-      ],
-      "capacity": 100
-    }
+  "metadata": {
+    "lastUpdated": "2024-01-15T14:30:00Z",
+    "dataVersion": "1.0.0",
+    "source": "UTD Campus Recreation",
+    "updateFrequency": "5 minutes"
   }
-} 
+}

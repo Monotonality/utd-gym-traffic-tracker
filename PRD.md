@@ -1,89 +1,206 @@
-# UTD Gym Traffic Tracker: Product Requirements Document
+# UTD Gym Traffic Tracker - Product Requirements Document
 
-## 1. Introduction
+## 📋 Overview
 
-The UTD Gym Traffic Tracker is a web application designed for students at the University of Texas at Dallas. The primary purpose of this app is to help students make informed decisions about when to visit the campus gyms by providing visual data on historical, current, and predicted traffic levels. The application is inspired by the design and utility of the UTDGrades platform, which is widely used by students.
+The UTD Gym Traffic Tracker is a web-based application designed to provide real-time occupancy information for the University of Texas at Dallas campus recreation facilities. The application helps students make informed decisions about when to visit the gym based on current and predicted traffic levels.
 
-## 2. Goals
+## 🎯 Product Vision
 
-### Primary Goal
-Provide UTD students with an easy-to-use tool to view gym traffic and plan their workouts, thereby reducing wait times and improving the overall gym experience.
+**Mission**: Empower UTD students with real-time gym traffic data to optimize their workout schedules and reduce wait times.
 
-### Secondary Goal
-Build a functional, aesthetically pleasing, and user-friendly web application using vibe coding principles.
+**Vision**: Become the go-to platform for UTD students seeking gym availability information, fostering a more efficient and enjoyable fitness experience.
 
-### Future Goal
-To be a proof-of-concept for a full-scale application that could potentially be integrated into the official UTD system using real-time swipe card data.
-
-## 3. Target Users
+## 👥 Target Users
 
 ### Primary Users
-- **UTD Students**: The primary users who are looking to work out at one of the two main campus gyms.
+- **UTD Students**: Undergraduate and graduate students using campus recreation facilities
+- **Campus Recreation Staff**: Administrators managing gym operations
 
 ### Secondary Users
-- **Campus Staff**: Potential secondary users who may want to monitor gym usage for resource management and planning.
+- **UTD Faculty/Staff**: University employees using campus recreation facilities
+- **Visitors**: Temporary users with campus access
 
-## 4. Key Features
+## 🏋️ Core Features
 
-### 4.1. Gym Selection
-The application will allow users to select and view data for two distinct locations:
-- **Activity Center**
-- **Rec Center West**
+### 1. Real-time Traffic Monitoring
+- **Current Occupancy**: Live headcount for each gym facility
+- **Capacity Percentage**: Visual representation of gym utilization
+- **Wait Time Estimates**: Smart predictions based on current traffic levels
+- **Status Indicators**: Color-coded traffic levels (Low, Medium, High, Very High)
 
-### 4.2. Data Visualization & Display
-- A central display area will show graphical representations of gym traffic.
-- The layout will be inspired by UTDGrades, featuring a sidebar for navigation (e.g., selecting gyms, dates) and a main content area for graphs.
-- The data will be displayed in one of three modes, based on the selected date:
-  - **Current Usage**: A live or near-live view of the number of people currently in the gym. (For this project, this will be simulated data).
-  - **Historical Data**: A historical view showing traffic patterns for past dates and times.
-  - **Predicted Usage**: A predictive model showing expected traffic for future dates and times, based on historical trends (e.g., peak hours on Mondays, weekend trends).
+### 2. Gym Selection
+- **Activity Center**: Main campus recreation facility
+- **Rec Center West**: Secondary recreation facility
+- **Facility Information**: Operating hours, location, amenities
 
-### 4.3. Interactive Elements
-- **Light/Dark Mode Switch**: A prominent toggle switch (sun/moon icon) will allow users to change the application's theme. The light and dark modes will be designed for optimal readability.
-- **Form Submission**: Users will be able to select specific days and times to view data. (This is a core interactive feature).
+### 3. Data Visualization
+- **Hourly Patterns**: 24-hour traffic overview with interactive charts
+- **Weekly Trends**: Day-of-week analysis showing peak usage times
+- **Historical Data**: Past traffic patterns for trend analysis
+- **Predictions**: Future traffic forecasting using historical data
 
-## 5. Technical Stack (Initial Plan)
+### 4. User Interface
+- **Responsive Design**: Mobile-first approach for all device sizes
+- **Modern UI**: Clean, intuitive interface using Tailwind CSS
+- **Accessibility**: WCAG 2.1 compliant design patterns
+- **Fast Loading**: Optimized performance for quick data access
+
+## 📊 Data Requirements
+
+### Current Data Sources
+- **Simulated Data**: Realistic traffic patterns based on typical gym usage
+- **Historical Patterns**: Day-of-week and time-of-day variations
+- **Capacity Limits**: Maximum occupancy for each facility
+
+### Future Data Sources
+- **Real-time API**: Direct integration with UTD campus recreation systems
+- **IoT Sensors**: Live occupancy tracking devices
+- **User Reports**: Crowdsourced traffic information
+
+### Data Structure
+```json
+{
+  "gymId": "activity-center",
+  "currentOccupancy": 85,
+  "maxCapacity": 150,
+  "capacityPercentage": 57,
+  "status": "medium",
+  "waitTime": "5-10 min",
+  "lastUpdated": "2024-01-15T14:30:00Z"
+}
+```
+
+## 🎨 User Experience
+
+### Design Principles
+- **Simplicity**: Clean, uncluttered interface
+- **Speed**: Fast loading and real-time updates
+- **Accuracy**: Reliable data and predictions
+- **Accessibility**: Inclusive design for all users
+
+### User Journey
+1. **Landing**: User arrives at the application
+2. **Gym Selection**: Choose between Activity Center and Rec Center West
+3. **Data Viewing**: See current occupancy and traffic patterns
+4. **Decision Making**: Use information to plan gym visit
+5. **Return**: Regular usage for ongoing fitness planning
+
+## 🔧 Technical Requirements
 
 ### Frontend Technologies
-- **HTML**: Structure and semantic markup
-- **CSS**: Styling and layout
-- **JavaScript**: Interactivity and data manipulation
+- **HTML5**: Semantic markup for accessibility
+- **CSS3**: Modern styling with Tailwind CSS
+- **JavaScript (ES6+)**: Modular, maintainable code
+- **Chart.js**: Interactive data visualizations
 
-### Styling Framework
-- **Tailwind CSS**: For a modern, responsive design
+### Performance Requirements
+- **Load Time**: < 3 seconds on 3G connection
+- **Update Frequency**: Real-time updates every 30 seconds
+- **Responsiveness**: Smooth interactions on all devices
+- **Browser Support**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
 
 ### Data Management
-- **Simulated Data**: Objects or arrays will be used to represent gym traffic
+- **Simulated Data**: Phase 1 implementation
+- **API Integration**: Future real-time data sources
+- **Caching**: Efficient data storage and retrieval
+- **Error Handling**: Graceful degradation for data failures
 
-### Visualization Libraries
-- **Charting Library**: A charting library will be used for the data visualizations, similar to the bar chart in UTDGrades
+## 📱 Platform Support
 
-## 6. Future Considerations
+### Web Application
+- **Desktop**: Full-featured experience on large screens
+- **Tablet**: Optimized layout for medium screens
+- **Mobile**: Touch-friendly interface for smartphones
 
-### Real-time Data Integration
-The ultimate goal is to integrate with the UTD system to pull actual student swipe card data for real-time gym traffic monitoring.
+### Future Platforms
+- **Mobile App**: Native iOS and Android applications
+- **Progressive Web App**: Offline-capable web application
+- **Smart Watch**: Quick traffic checks on wearable devices
 
-### Scalability
-- Potential expansion to include more campus facilities
-- Integration with UTD's official student portal
-- Mobile application development
+## 🔒 Security & Privacy
 
-### Advanced Features
-- Push notifications for optimal workout times
-- Social features (workout buddy finder)
-- Integration with fitness tracking apps
+### Data Protection
+- **No Personal Data**: Application doesn't collect user information
+- **Anonymous Usage**: Traffic data is aggregated and anonymous
+- **Secure Connections**: HTTPS for all data transmission
+- **Privacy Compliance**: Adherence to UTD privacy policies
 
-## 7. Constraints and Limitations
+### Access Control
+- **Public Access**: Open to all UTD community members
+- **No Authentication**: Simplified access for ease of use
+- **Rate Limiting**: Prevent abuse of data endpoints
 
-### Current Phase
-- Simulated data only (no real-time integration)
-- Limited to two gym locations
-- Web-only application (no mobile app)
+## 📈 Success Metrics
 
-### Technical Constraints
-- Must work across major browsers
-- Should be responsive for various screen sizes
-- Must maintain accessibility standards
+### User Engagement
+- **Daily Active Users**: Track regular usage patterns
+- **Session Duration**: Measure time spent on the application
+- **Return Rate**: Monitor repeat usage behavior
 
+### Data Accuracy
+- **Prediction Accuracy**: Compare forecasts with actual traffic
+- **Update Reliability**: Monitor data freshness and availability
+- **User Feedback**: Collect accuracy ratings from users
 
-*This PRD serves as a living document and will be updated as the project evolves and new requirements are identified.* 
+### Performance
+- **Page Load Speed**: Maintain fast loading times
+- **Uptime**: Ensure 99.9% availability
+- **Mobile Performance**: Optimize for mobile devices
+
+## 🚀 Development Phases
+
+### Phase 1 (Current) - MVP
+- ✅ Basic traffic monitoring
+- ✅ Responsive web design
+- ✅ Chart visualizations
+- ✅ Simulated data system
+
+### Phase 2 (Q2 2024) - Enhanced Features
+- 🔄 Real-time API integration
+- 🔄 Advanced analytics dashboard
+- 🔄 Push notifications
+- 🔄 User preferences
+
+### Phase 3 (Q3 2024) - Advanced Features
+- 📋 Mobile app development
+- 📋 IoT sensor integration
+- 📋 Machine learning predictions
+- 📋 Social features
+
+### Phase 4 (Q4 2024) - Scale & Optimize
+- 📋 Performance optimization
+- 📋 Advanced analytics
+- 📋 Multi-campus support
+- 📋 Enterprise features
+
+## 🛠️ Implementation Guidelines
+
+### Code Quality
+- **Modular Architecture**: Maintainable, testable code
+- **Documentation**: Comprehensive code and API documentation
+- **Testing**: Unit and integration testing
+- **Code Review**: Peer review process for all changes
+
+### Deployment
+- **Static Hosting**: CDN-based deployment for performance
+- **CI/CD**: Automated testing and deployment pipeline
+- **Monitoring**: Real-time application monitoring
+- **Backup**: Regular data backup and recovery procedures
+
+## 📞 Stakeholder Communication
+
+### Regular Updates
+- **Weekly**: Development progress updates
+- **Monthly**: Feature release announcements
+- **Quarterly**: Strategic roadmap reviews
+
+### Feedback Channels
+- **User Surveys**: Regular feedback collection
+- **Bug Reports**: Issue tracking and resolution
+- **Feature Requests**: User-driven development priorities
+
+---
+
+**Document Version**: 1.0  
+**Last Updated**: January 2024  
+**Next Review**: March 2024

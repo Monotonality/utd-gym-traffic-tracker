@@ -1,20 +1,4 @@
-/* UTD Gym Traffic Tracker - UTDGrades-inspired styles */
-
-/* Base styles */
-* {
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #374151;
-}
-
-/* Smooth transitions */
-* {
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
+/* UTD Gym Traffic Tracker - Custom Styles */
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -22,112 +6,35 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f9fafb;
+    background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #d1d5db;
+    background: #cbd5e1;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #9ca3af;
+    background: #94a3b8;
 }
 
-/* Focus styles */
+/* Custom focus styles */
 .focus-ring:focus {
-    outline: 2px solid #3b82f6;
+    outline: 2px solid transparent;
     outline-offset: 2px;
+    box-shadow: 0 0 0 2px #3b82f6;
 }
 
-/* Button styles */
-.btn-primary {
-    background-color: #3b82f6;
-    color: white;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+/* Smooth transitions */
+.transition-all {
+    transition: all 0.2s ease-in-out;
 }
 
-.btn-primary:hover {
-    background-color: #2563eb;
-}
-
-/* Form styles */
-.form-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.form-select {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 16px;
-    background-color: white;
-    cursor: pointer;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-select:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-/* Card styles */
-.card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.2s ease;
-}
-
-.card:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Status indicators */
-.status-low {
-    background-color: #dcfce7;
-    color: #166534;
-}
-
-.status-medium {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-.status-high {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
-/* Chart container */
+/* Custom chart container */
 .chart-container {
     position: relative;
     height: 400px;
-}
-
-@media (max-width: 768px) {
-    .chart-container {
-        height: 300px;
-    }
+    width: 100%;
 }
 
 /* Loading animation */
@@ -135,65 +42,51 @@ body {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 2px solid #f3f4f6;
-    border-top: 2px solid #3b82f6;
+    border: 3px solid #f3f4f6;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
+    border-top-color: #3b82f6;
+    animation: spin 1s ease-in-out infinite;
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* Fade in animation */
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
+/* Status card animations */
+.status-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.status-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
-    line-height: 1.25;
+/* Custom button styles */
+.btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200;
 }
 
-/* Link styles */
-a {
-    color: #3b82f6;
-    text-decoration: none;
-    transition: color 0.2s ease;
+.btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded-md transition-colors duration-200;
 }
 
-a:hover {
-    color: #2563eb;
-    text-decoration: underline;
+/* Responsive text utilities */
+.text-responsive {
+    font-size: clamp(0.875rem, 2vw, 1rem);
 }
 
-/* Radio button styles */
-input[type="radio"] {
-    accent-color: #3b82f6;
+/* Custom grid for status cards */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
 }
 
-/* Responsive design */
-@media (max-width: 640px) {
-    .container {
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-    
-    .text-3xl {
-        font-size: 1.875rem;
+/* Dark mode support (future enhancement) */
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+        @apply bg-gray-900 text-gray-100;
     }
 }
 
@@ -203,10 +96,22 @@ input[type="radio"] {
         display: none !important;
     }
     
-    body {
-        background: white !important;
-        color: black !important;
+    .print-break {
+        page-break-before: always;
     }
+}
+
+/* Accessibility improvements */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 /* High contrast mode support */
@@ -215,17 +120,7 @@ input[type="radio"] {
         border-width: 2px;
     }
     
-    .focus:ring-2 {
-        outline: 3px solid;
-        outline-offset: 2px;
+    .text-gray-600 {
+        color: #000;
     }
 }
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-} 
