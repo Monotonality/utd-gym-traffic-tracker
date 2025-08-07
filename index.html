@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTD Gym Traffic Tracker</title>
+    <title>UTDGains</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/styles.css">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans">
     <!-- Main Container -->
@@ -28,7 +28,7 @@
                         <div class="w-8 h-8 bg-blue-600 rounded-lg mr-3 flex items-center justify-center">
                             <span class="text-white text-lg font-bold">🏋️</span>
                         </div>
-                        <h1 class="text-2xl font-bold text-gray-900">UTD Gym Traffic</h1>
+                        <h1 class="text-2xl font-bold text-gray-900">UTDGains</h1>
                     </div>
                     <div class="text-sm text-gray-500">
                         Real-time occupancy tracking
@@ -53,42 +53,70 @@
                             </select>
                         </div>
                         
-                        <!-- Date Selection -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                        <!-- Date Selection (Day View) -->
+                        <div id="date-selection-container">
+                            <label id="date-label" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
                             <input type="date" id="date-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         
+                        <!-- Week Navigation (Week View) -->
+                        <div id="week-navigation-container" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Week</label>
+                            <div class="flex items-center gap-2">
+                                <button id="prev-week-btn" class="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    ← Previous
+                                </button>
+                                <div id="current-week-display" class="px-3 py-2 text-sm text-gray-900 min-w-0 flex-1 text-center">
+                                    <!-- Week range will be displayed here -->
+                                </div>
+                                <button id="next-week-btn" class="px-3 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    Next →
+                                </button>
+                            </div>
+                        </div>
+                        
                         <!-- Time Selection -->
-                        <div>
+                        <div id="time-selection-container">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Time</label>
                             <input type="time" id="time-select" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                     </div>
                 </div>
 
-                <!-- Current Status -->
+                <!-- Status -->
                 <div class="bg-white rounded-lg shadow-sm border p-6 mb-8">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Current Status</h2>
+                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Status</h2>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="text-center">
                             <div class="text-3xl font-bold text-blue-600" id="current-occupancy">--</div>
                             <div class="text-sm text-gray-600">Current Occupancy</div>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center" id="capacity-card">
                             <div class="text-3xl font-bold text-green-600" id="capacity-percentage">--</div>
                             <div class="text-sm text-gray-600">Capacity %</div>
                         </div>
-                        <div class="text-center">
-                            <div class="text-3xl font-bold text-yellow-600" id="wait-time">--</div>
-                            <div class="text-sm text-gray-600">Est. Wait Time</div>
+                        <div class="text-center" id="busy-status-card">
+                            <div class="text-3xl font-bold text-green-600" id="busy-status">--</div>
+                            <div class="text-sm text-gray-600">Status</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Traffic Chart -->
                 <div class="bg-white rounded-lg shadow-sm border p-6">
-                    <h2 class="text-lg font-semibold text-gray-900 mb-4">Traffic Overview</h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-900">Traffic Overview</h2>
+                        
+                        <!-- View Toggle Buttons -->
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button id="day-view-btn" class="px-4 py-2 text-sm font-medium rounded-md bg-blue-600 text-white transition-colors">
+                                Day View
+                            </button>
+                            <button id="week-view-btn" class="px-4 py-2 text-sm font-medium rounded-md text-gray-600 hover:text-gray-900 transition-colors">
+                                Week View
+                            </button>
+                        </div>
+                    </div>
                     <div class="h-96">
                         <canvas id="traffic-chart"></canvas>
                     </div>
